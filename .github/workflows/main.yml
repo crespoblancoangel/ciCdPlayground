@@ -1,0 +1,27 @@
+on:
+  workflow_dispatch:
+jobs: 
+  my_job:
+    name: Example
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+    - name: Install Dependencies
+      run: yarn
+    - name: Build
+      run: yarn build
+    - name: Unit test
+      run: yarn test
+    - name: Integration tests
+      run: yarn test:e2e
+    - name: Install Dependencies
+      run: yarn build
+    - name: Publish Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v2.18.0
+      with:
+        files: "**/reports/**/*.xml"
+          
